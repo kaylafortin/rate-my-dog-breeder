@@ -1,26 +1,29 @@
 {
-  "name": "rate-my-dog-breeder",
+  "name": "ckc-breeders-api",
   "version": "1.0.0",
-  "description": "rate dog breeders ckc",
-  "main": "script.js",
+  "main": "server/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pretest": "jshint ."
+  },
+  "dependencies": {
+    "compression": "^1.0.3",
+    "cors": "^2.5.2",
+    "loopback": "^2.22.0",
+    "loopback-boot": "^2.6.5",
+    "loopback-component-explorer": "^2.1.0",
+    "loopback-datasource-juggler": "^2.39.0",
+    "serve-favicon": "^2.0.1"
+  },
+  "devDependencies": {
+    "jshint": "^2.5.6"
   },
   "repository": {
-    "type": "git",
-    "url": "https://github.com/hennigk/rate-my-dog-breeder.git"
+    "type": "",
+    "url": ""
   },
-  "keywords": [
-    "dog",
-    "breeder",
-    "ckc"
-  ],
-  "author": "hennigk",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/hennigk/rate-my-dog-breeder/issues"
-  },
-  "homepage": "https://github.com/hennigk/rate-my-dog-breeder",
+  "description": "ckc-breeders-api"
+}
+nigk/rate-my-dog-breeder",
   "dependencies": {
     "bluebird": "^2.10.2",
     "prompt": "^0.2.14",
