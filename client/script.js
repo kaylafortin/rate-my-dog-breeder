@@ -1,6 +1,6 @@
 var Promise = require("bluebird");
 var request = Promise.promisify(require("request"));
-
+var apiUrl = "https://rate-my-dog-breeder-hennigk.c9.io/api/"
 
 function clientError(e) {
     return e.code >= 400 && e.code < 500;
@@ -169,6 +169,7 @@ function getBreedList(){
                     breedName = subtype + " " + breedName.substring(0, subTypeStart - 1);
                 }
                 console.log(breedName);
+                postBreeds(breedName)
                 var resultsSubstring = results.substring(breedEnd);
                 if (resultsSubstring.indexOf('<div class="post clearfix breedPost" style="">') >=0) {
                     getBreed(resultsSubstring);
@@ -178,5 +179,22 @@ function getBreedList(){
                 }
             });
 }
+
+
+
+function postBreeds(breedName){
+        var formData = {
+           "breedName": breedName
+        };
+    
+        request.post({
+                url: 'https://rate-my-dog-breeder-hennigk.c9.io/api/Breeds',
+                form: formData
+            },
+            function (err, httpResponse, body) {
+                console.log(err, body);
+            });
+}
+
 
 getBreedList();

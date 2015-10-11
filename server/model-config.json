@@ -31,5 +31,21 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "Breeder": {
+    "dataSource": "CKCbreeders",
+    "public": true
+  },
+  "Address": {
+    "dataSource": "CKCbreeders",
+    "public": true
+  },
+  "Litter": {
+    "dataSource": "CKCbreeders",
+    "public": true
+  },
+  "Breed": {
+    "dataSource": "CKCbreeders",
+    "public": true
   }
 }

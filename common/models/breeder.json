@@ -1,0 +1,33 @@
+{
+  "name": "Breeder",
+  "plural": "Breeders",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "kennel": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "addresses": {
+      "type": "hasOne",
+      "model": "Address",
+      "foreignKey": ""
+    },
+    "litters": {
+      "type": "hasMany",
+      "model": "Litter",
+      "foreignKey": "breederId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

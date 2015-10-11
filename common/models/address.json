@@ -1,0 +1,32 @@
+{
+  "name": "Address",
+  "plural": "Addresses",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "city": {
+      "type": "string",
+      "required": true
+    },
+    "province": {
+      "type": "string",
+      "required": true
+    },
+    "country": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "breeder": {
+      "type": "belongsTo",
+      "model": "Breeder",
+      "foreignKey": "breederId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

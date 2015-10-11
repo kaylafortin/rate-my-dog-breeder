@@ -1,0 +1,26 @@
+{
+  "name": "Breed",
+  "plural": "Breeds",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "breedName": {
+      "type": "string",
+      "id": true,
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "litters": {
+      "type": "hasMany",
+      "model": "Litter",
+      "foreignKey": "breedName"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

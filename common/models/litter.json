@@ -1,0 +1,28 @@
+{
+  "name": "Litter",
+  "plural": "Litters",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "breedName": {
+      "type": "string",
+      "required": true
+    },
+    "birthDate": {
+      "type": "string"
+    },
+    "malePupCount": {
+      "type": "number"
+    },
+    "femalePupCount": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
