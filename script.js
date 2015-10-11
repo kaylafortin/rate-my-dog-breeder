@@ -141,10 +141,42 @@ function getRequest(id){
         console.log("error: " + e);
     }).then(
         function(id){
-        if (id < 250){
+        if (id < 655){
             getRequest(id + 1)
         }
     })
 }
 
-getRequest(228)
+//getRequest(635)
+
+function getBreedList(){
+    request("http://www.ckc.ca/en/Choosing-a-Dog/Choosing-a-Breed/All-Dogs").then(
+        function(body){
+            var content = body[1];
+            return content;
+        }).then(
+            function getBreed(results){
+                var breedTag = results.indexOf('<div class="post clearfix breedPost" style="">');
+                var breedStartTag = results.indexOf('<h3><a', breedTag);
+                var breedStart = results.indexOf('>', breedStartTag + 6);
+                var breedEnd = results.indexOf('</a></h3>', breedStart);
+                var breedName = results.substring(breedStart + 1, breedEnd);
+            
+                if (breedName.indexOf("(") >=0 ){
+                    var subTypeStart = breedName.indexOf("(");
+                    var subTypeEnd = breedName.indexOf(")");
+                    var subtype = breedName.substring(subTypeStart + 1, subTypeEnd);
+                    breedName = subtype + " " + breedName.substring(0, subTypeStart - 1);
+                }
+                console.log(breedName);
+                var resultsSubstring = results.substring(breedEnd);
+                if (resultsSubstring.indexOf('<div class="post clearfix breedPost" style="">') >=0) {
+                    getBreed(resultsSubstring);
+                }
+                else {
+                    return;
+                }
+            });
+}
+
+getBreedList();
