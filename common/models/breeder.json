@@ -26,6 +26,12 @@
       "type": "hasMany",
       "model": "Litter",
       "foreignKey": "breederId"
+    },
+    "breeds": {
+      "type": "hasMany",
+      "model": "Breed",
+      "foreignKey": "breederId",
+      "through": "Litter"
     }
   },
   "acls": [],

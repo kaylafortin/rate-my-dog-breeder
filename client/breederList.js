@@ -170,7 +170,7 @@ function getLitterResults(litterResults, breederId) {
                         litter.femalePupCount = litterFemale
                     }
 
-                    // postLitter(litter);
+                    postLitter(litter);
                     var litterResultsSubstring = litterResults.substring(litterResultTagIndex + litterResultsTagLength);
 
                     // console.log(litter)
@@ -189,22 +189,19 @@ function getLitterResults(litterResults, breederId) {
 
 function getRequest(id) {
     // console.log("\n" + id)
-    var breederId = id
+    var breederId = id;
     request("http://www.ckc.ca/Choosing-a-Dog/PuppyList/Breeder.aspx?id=" + id).then(
         function(result) {
             var content = result[1];
-            //   getBreeder(content, breederId)
-            // var breederName = getBreederName(content);
-            // var kennelName = getBreederDetails(content);
-            // getBreederLocationDate(content, breederId);
+            getBreeder(content, breederId);
+            getBreederLocationDate(content, breederId);
             getLitterResults(content, breederId);
-            // console.log(litter)
-            return id
+            return id;
         }).catch(clientError, function(e) {
         console.log("error: " + e);
     }).then(
         function(id) {
-            if (id < 2300) {
+            if (id < 5) {
                 getRequest(id + 1)
             }
         })
@@ -256,6 +253,6 @@ function getBreedId(breedName) {
         });
 }
 
-getRequest(2000)
+getRequest(1)
 
 // getBreedId("Pug")

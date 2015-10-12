@@ -13,7 +13,19 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "litters": {
+      "type": "hasMany",
+      "model": "Litter",
+      "foreignKey": "breedId"
+    },
+    "breeders": {
+      "type": "hasMany",
+      "model": "Breeder",
+      "foreignKey": "breedId",
+      "through": "Litter"
+    }
+  },
   "acls": [],
   "methods": {}
 }
