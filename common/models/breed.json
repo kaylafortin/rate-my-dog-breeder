@@ -9,24 +9,11 @@
   "properties": {
     "breedName": {
       "type": "string",
-      "id": true,
       "required": true
     }
   },
   "validations": [],
-  "relations": {
-    "breeders": {
-      "type": "hasMany",
-      "model": "Breeder",
-      "foreignKey": "breederId",
-      "through": "Litter"
-    },
-    "litters": {
-      "type": "hasMany",
-      "model": "Litter",
-      "foreignKey": "breedName"
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": {}
 }

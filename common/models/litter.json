@@ -27,11 +27,6 @@
       "type": "belongsTo",
       "model": "Breeder",
       "foreignKey": "breederId"
-    },
-    "breeds": {
-      "type": "belongsTo",
-      "model": "Breed",
-      "foreignKey": "breedName"
     }
   },
   "acls": [],
