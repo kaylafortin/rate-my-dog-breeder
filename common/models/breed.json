@@ -15,6 +15,12 @@
   },
   "validations": [],
   "relations": {
+    "breeders": {
+      "type": "hasMany",
+      "model": "Breeder",
+      "foreignKey": "breederId",
+      "through": "Litter"
+    },
     "litters": {
       "type": "hasMany",
       "model": "Litter",

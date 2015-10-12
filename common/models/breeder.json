@@ -22,6 +22,12 @@
       "model": "Address",
       "foreignKey": ""
     },
+    "breeds": {
+      "type": "hasMany",
+      "model": "Breed",
+      "foreignKey": "breedName",
+      "through": "Litter"
+    },
     "litters": {
       "type": "hasMany",
       "model": "Litter",
