@@ -201,7 +201,7 @@ function getRequest(id) {
         console.log("error: " + e);
     }).then(
         function(id) {
-            if (id < 5) {
+            if (id < 2396) {
                 getRequest(id + 1)
             }
         })
@@ -253,6 +253,6 @@ function getBreedId(breedName) {
         });
 }
 
-getRequest(1)
+getRequest(6)
 
 // getBreedId("Pug")
