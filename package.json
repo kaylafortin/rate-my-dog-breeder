@@ -6,6 +6,7 @@
     "pretest": "jshint ."
   },
   "dependencies": {
+    "bluebird": "^2.10.2",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
     "loopback": "^2.22.0",
@@ -13,6 +14,7 @@
     "loopback-component-explorer": "^2.1.0",
     "loopback-connector-mysql": "^2.2.0",
     "loopback-datasource-juggler": "^2.39.0",
+    "request": "^2.65.0",
     "serve-favicon": "^2.0.1",
     "underscore": "^1.8.3"
   },
