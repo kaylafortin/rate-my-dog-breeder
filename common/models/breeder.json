@@ -32,6 +32,11 @@
       "model": "Breed",
       "foreignKey": "breederId",
       "through": "Litter"
+    },
+    "reviews": {
+      "type": "hasMany",
+      "model": "Review",
+      "foreignKey": "breederId"
     }
   },
   "acls": [],

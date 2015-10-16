@@ -27,7 +27,7 @@
   },
   "validations": [],
   "relations": {
-    "breeders": {
+    "breeder": {
       "type": "belongsTo",
       "model": "Breeder",
       "foreignKey": "breederId"

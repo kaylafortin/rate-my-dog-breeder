@@ -47,5 +47,9 @@
   "Breed": {
     "dataSource": "CKCbreeders",
     "public": true
+  },
+  "Review": {
+    "dataSource": "CKCbreeders",
+    "public": true
   }
 }

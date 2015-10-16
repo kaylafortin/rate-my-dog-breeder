@@ -1,0 +1,54 @@
+{
+  "name": "Review",
+  "plural": "Reviews",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "dam": {
+      "type": "string"
+    },
+    "sire": {
+      "type": "string"
+    },
+    "birthDate": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "number",
+      "required": true
+    },
+    "breederId": {
+      "type": "number",
+      "required": true
+    },
+    "breedId": {
+      "type": "number",
+      "required": true
+    },
+    "breedName": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "breeder": {
+      "type": "belongsTo",
+      "model": "Breeder",
+      "foreignKey": "breederId"
+    },
+    "breeds": {
+      "type": "hasOne",
+      "model": "Breed",
+      "foreignKey": "breedId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
