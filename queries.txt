@@ -1,0 +1,67 @@
+SELECT Litter.breedName as Litter_breed, Litter.breedId as Litter_breedId, Litter.breederId as Litter_breederId,
+Breeder.name as Breeder_name, Breeder.kennel as Breeder_Kennel, Breeder.id as Breeder_Id, 
+Address.city as Address_City, Address.Province as Address_province, Address.country as Address_country
+FROM Breeder 
+JOIN Address ON Address.breederId = Breeder.id  
+Left JOIN Litter ON Litter.breederId = Breeder.id
+        
+         
+
+{ id: 809,
+    breedName: 'Whippet',
+    birthDate: '3/14/2015',
+    malePupCount: 5,
+    femalePupCount: 5,
+    breederId: 809,
+    breedId: 204,
+    city: 'RED DEER',
+    province: 'AB',
+    country: 'CANADA',
+    name: 'KAREN A LEJEUNE',
+    kennel: 'ETHOS, TORKELLE' },
+
+SELECT Litter.*,  Address.*, Breeder.* FROM Breeder 
+JOIN Address ON Address.breederId = Breeder.id  
+Left JOIN Litter ON Litter.breederId = Breeder.id
+WHERE Address.province="AB" AND Litter.breedId > 0
+GROUP BY Breeder.id;
+
+SELECT Litter.*,  Address.*, Breed.*, Breeder.* FROM Breeder 
+JOIN Address ON Address.breederId = Breeder.id  
+JOIN Litter ON Litter.breederId = Breeder.id
+JOIN Breed ON Breed.id = Litter.breedId
+GROUP BY Breeder.id;
+
+SPECIFY JUST PROVINCE
+
+SELECT Address.*, Breeder.* FROM Breeder 
+JOIN Address ON Address.breederId = Breeder.id
+WHERE Address.province="AB"
+GROUP BY Breeder.id;
+
+SPECIFY JUST BREED
+
+SELECT Litter.*, Breeder.* FROM Breeder 
+JOIN Litter ON Litter.breederId = Breeder.id
+WHERE Litter.breedId=18
+GROUP BY Breeder.id;
+
+SPECIFY BY BREED & PROVINCE
+
+SELECT Litter.*,  Address.*, Breeder.* FROM Breeder 
+JOIN Address ON Address.breederId = Breeder.id  
+JOIN Litter ON Litter.breederId = Breeder.id
+WHERE Address.province="AB" AND Litter.breedId=17
+GROUP BY Breeder.id;
+
+
+
+
+
+SELECT * FROM Address GROUP BY province;
+
+SELECT Address.*, Breeder.* FROM Breeder
+LEFT JOIN Address ON Address.breederId = Breeder.id
+WHERE Address.id IS NULL;
+
+SELECT Litter.*,  Address.*, Breeder.* FROM Breeder JOIN Address ON Address.breederId = Breeder.id  LEFT JOIN Litter ON Litter.breederId = Breeder.id WHERE Address.province != "all" AND WHERE Litter.breedId=18 GROUP BY Breeder.id GROUP BY Breeder.id;
