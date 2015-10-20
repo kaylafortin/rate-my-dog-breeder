@@ -13,11 +13,15 @@
     "sire": {
       "type": "string"
     },
+    "dogName": {
+      "type": "string"
+    },
     "birthDate": {
       "type": "string"
     },
     "content": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "rating": {
       "type": "number",
@@ -28,11 +32,13 @@
       "required": true
     },
     "breedId": {
-      "type": "number",
-      "required": true
+      "type": "number"
     },
     "breedName": {
-      "type": "string",
+      "type": "string"
+    },
+    "reviewDate": {
+      "type": "date",
       "required": true
     }
   },
@@ -42,11 +48,6 @@
       "type": "belongsTo",
       "model": "Breeder",
       "foreignKey": "breederId"
-    },
-    "breeds": {
-      "type": "hasOne",
-      "model": "Breed",
-      "foreignKey": "breedId"
     }
   },
   "acls": [],

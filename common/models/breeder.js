@@ -70,9 +70,11 @@ function whereQuery(province, breed, where) {
     else if (Number(breed) !== 0) {
         return ' WHERE Address.province != ? AND Litter.breedId=?' + where;
     }
-
+    else if (where !== "") {
+        return ' WHERE ' + where.substring(4);
+    }
     else {
-        return where.substring(4);
+        return "";
     }
 }
 
@@ -87,7 +89,7 @@ function buildQuery() {
 
 module.exports = function(Breeder) {
 
-    Breeder.byProvAndBreed = function(province, breed, order, page, numEntries, cb) {
+    Breeder.byProvAndBreed = function(province, breed, page, order, numEntries, cb) {
         var queryWhere;
         var ds = Breeder.dataSource;
         var nextLimit = numEntries + 1;
@@ -127,7 +129,7 @@ module.exports = function(Breeder) {
         });
 
         function getResults(next, limit) {
-            var whereIn = "AND Breeder.id IN ( ";
+            var whereIn = " AND Breeder.id IN ( ";
 
             for (var i = 0; i < limit.length; i++) {
                 whereIn += limit[i].Breeder_id + ",";
@@ -139,7 +141,6 @@ module.exports = function(Breeder) {
 
             query += whereInQuery + 'ORDER BY ' + order;
 
-        
             ds.connector.query(query, [province, Number(breed)], function(err, results) {
                 if (err) {
                     console.log(err);
@@ -153,9 +154,53 @@ module.exports = function(Breeder) {
                 });
             });
         }
-    };
+    },
+    Breeder.remoteMethod(
+        'byProvAndBreed', {
+            http: {
+                path: '/search',
+                verb: 'get'
+            },
+            description: 'Get list of breeders by province and/or breed',
+            accepts: [{
+                arg: 'province',
+                type: 'string',
+                http: {
+                    source: 'query'
+                }
+            }, {
+                arg: 'breed',
+                type: 'number',
+                http: {
+                    source: 'query'
+                }
+            }, {
+                arg: 'page',
+                type: 'number',
+                http: {
+                    source: 'query'
+                }
+            }, {
+                arg: 'order',
+                type: 'string',
+                http: {
+                    source: 'query'
+                }
+            }, {
+                arg: 'limit',
+                type: 'number',
+                http: {
+                    source: 'query'
+                }
+            }],
+            returns: {
+                arg: 'data',
+                type: ['Breeder'],
+                root: true
+            }
+        }),
 
-    Breeder.byName = function(name, order, page, numEntries, cb) {
+    Breeder.byName = function(name, page, order, numEntries, cb) {
         var nextLimit = numEntries + 1;
         var ds = Breeder.dataSource;
         var nameQueryLimit = buildQuery();
@@ -236,14 +281,14 @@ module.exports = function(Breeder) {
                     source: 'query'
                 }
             }, {
-                arg: 'order',
-                type: 'string',
+                arg: 'page',
+                type: 'number',
                 http: {
                     source: 'query'
                 }
             }, {
-                arg: 'page',
-                type: 'number',
+                arg: 'order',
+                type: 'string',
                 http: {
                     source: 'query'
                 }

@@ -4,10 +4,7 @@
     "connector": "memory"
   },
   "CKCbreeders": {
-    "database": "ckcbreeders",
-    "username": "hennigk",
     "name": "CKCbreeders",
-    "connector": "mysql",
-    "hostname": "0.0.0.0"
+    "connector": "mysql"
   }
 }
