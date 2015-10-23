@@ -17,7 +17,7 @@ module.exports = {
         hostname: parsed_url.hostname,
         database: database
       },
-    'rate-my-dog-breeder-review-images': {
+    reviewImages: {
         key: key,
         keyId: keyId,
         provider: provider
