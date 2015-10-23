@@ -40,6 +40,9 @@
     "reviewDate": {
       "type": "date",
       "required": true
+    },
+    "images": {
+      "type": ["object"]
     }
   },
   "validations": [],

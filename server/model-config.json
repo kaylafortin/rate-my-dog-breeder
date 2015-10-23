@@ -51,5 +51,9 @@
   "Review": {
     "dataSource": "CKCbreeders",
     "public": true
+  },
+  "container": {
+    "dataSource": "rate-my-dog-breeder-review-images",
+    "public": true
   }
 }

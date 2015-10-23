@@ -90,10 +90,21 @@ function buildQuery() {
 module.exports = function(Breeder) {
 
     Breeder.byProvAndBreed = function(province, breed, page, order, numEntries, cb) {
+        
+        // console.log(arguments.length)
+        if (province == undefined || breed == undefined || page == undefined || order == undefined  || numEntries == undefined) {
+            return cb(new Error('Invalid Request'), {
+                    page: page,
+                    offset: numEntries,
+                    limit: numEntries,
+                    results: []
+                });
+                
+        }
+        
         var queryWhere;
         var ds = Breeder.dataSource;
         var nextLimit = numEntries + 1;
-
         if (isNaN(numEntries)) {
             numEntries = 10;
         }
@@ -111,7 +122,23 @@ module.exports = function(Breeder) {
             var next = false;
             if (err) {
                 console.log(err);
+                return cb(err, {
+                    page: page,
+                    offset: numEntries,
+                    limit: next,
+                    results: []
+                });
             }
+            if (!breederLimit.length) {
+                return cb(new Error('Invalid Request') , {
+                    page: page,
+                    offset: numEntries,
+                    limit: next,
+                    results: []
+                });
+            }
+            
+            
             if (breederLimit.length > numEntries) {
                 next = true;
             }
@@ -201,6 +228,16 @@ module.exports = function(Breeder) {
         }),
 
     Breeder.byName = function(name, page, order, numEntries, cb) {
+        if (!name || !page || !order || !numEntries) {
+            return cb(new Error('Invalid Request'), {
+                    page: page,
+                    offset: numEntries,
+                    limit: numEntries,
+                    results: []
+                });
+                
+        }
+        
         var nextLimit = numEntries + 1;
         var ds = Breeder.dataSource;
         var nameQueryLimit = buildQuery();

@@ -5,6 +5,10 @@ var auth = parsed_url.auth.split(':');
 var username = auth[0];
 var password = auth[1];
 var database = parsed_url.pathname.substring(1);
+var key = process.env.AMAZON_KEY;
+var keyId = process.env.AMAZON_KEY_ID;
+var provider = "amazon"
+
 
 module.exports = {
     CKCbreeders: {
@@ -12,5 +16,10 @@ module.exports = {
         password: password,
         hostname: parsed_url.hostname,
         database: database
-      }
+      },
+    'rate-my-dog-breeder-review-images': {
+        key: key,
+        keyId: keyId,
+        provider: provider
+    }
 };

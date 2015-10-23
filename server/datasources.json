@@ -6,5 +6,9 @@
   "CKCbreeders": {
     "name": "CKCbreeders",
     "connector": "mysql"
+  },
+  "rate-my-dog-breeder-review-images": {
+    "name": "rate-my-dog-breeder-review-images",
+    "connector": "loopback-component-storage"
   }
 }
