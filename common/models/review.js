@@ -2,217 +2,118 @@ var Promise = require("bluebird");
 var request = Promise.promisify(require("request"));
 var app = require('../../server/server');
 var secret = process.env.CAPTCHA_KEY;
-// var multiparty = require('multiparty');
-// var loopback = require('loopback');
+var fs = require('fs');
+var storage = app.datasources.reviewImages;
 
-function checkCaptch(parsedData, cb) {
+
+function postReview(review, cb) {
     request.post({
-        url: "https://www.google.com/recaptcha/api/siteverify",
-        form: {
-            secret: secret,
-            response: parsedData.captcha
-        }
+        url: "https://rate-my-dog-breeder-hennigk.c9.io/api/Reviews",
+        form: review
     }, function(err, response, body) {
-        var parsed = (JSON.parse(body));
-        console.log(parsed)
         if (err) {
-            console.log(err);
-        }
-        if (parsed.success) {
-            delete parsedData.captcha;
-            return
+            // cb({error: 'server', message: err});
+            cb(err);
         }
         else {
-            cb(new Error('Invalid Captcha'));
+            return;
         }
     });
 }
 
-function randomString() {
-    var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-    var string_length = 8;
-    var randomstring = '';
+function uploadImage(parsedData, req, cb) {
+    if (req.files.fileUpload) {
+        var bucket = "breeder-review-images";
+        var randomDir = 'files_' + Math.random().toString(36);
+        var file = req.files.fileUpload;
+        var fileName = randomDir + '/' + file.originalFilename;
 
-    for (var i = 0; i < string_length; i++) {
-        var rnum = Math.floor(Math.random() * chars.length);
-        randomstring += chars.substring(rnum, rnum + 1);
+        var upStream = app.models.container.uploadStream(bucket, fileName, {
+            'contentType': file.type
+        });
+        var fileStream = fs.createReadStream(file.path);
+
+        var fileURL = "https://s3.amazonaws.com/" + bucket + "/" + fileName;
+        if (file.type.indexOf('image') < 0) {
+            cb(new Error("filetype"));
+            // cb(new Error({error: 'type', message: "file is not an image"}));
+        }
+        if (file.size > 10485760) {
+            cb(new Error("filesize"));
+            // cb(new Error({error: 'size', message: "file is larger than 10MB"}));
+        }
+        upStream.on('finish', function() {
+            parsedData.images = [{
+                image: fileURL
+            }];
+            postReview(parsedData, cb);
+            // cb(null, 'OK');
+            cb(null, {success: true});
+        });
+
+        fileStream.pipe(upStream);
     }
-    return randomstring;
-}
+    else {
+        console.log(parsedData);
+        postReview(parsedData, cb);
+        // cb(null, 'OK');
+        cb(null, {success: true});
+    }
 
-// Review.observe('before save', function postReview(ctx, next){
-//     if (ctx.instance){
-//     request.post({url: "https://www.google.com/recaptcha/api/siteverify", form: {secret: secret, response: ctx.instance.captcha}}, function(err,response,body){
-//         var parsed = (JSON.parse(body));
-//         if (err){
-//             console.log(err);
-//         }
-//         if (parsed.success){
-//             ctx.instance.unsetAttribute('captcha');
-//             next();
-//         }
-//         else {
-//             next(new Error('Invalid Captcha'));
-//         }
-//     });
-//     }
+}
 
 
 module.exports = function(Review) {
 
-        Review.createNew = function(data, req, res, cb) {
-            // console.log(req)
-            // Review.createNew = function(req, res, cb) {
-            // console.log("before parse: ", req)
-            
-            // var form = new multiparty.Form();
-            
-            // form.parse(req);
-            // var ds = Review.app.models.container.dataSource
-            
-            // console.log(data)
-            // console.log("req")
-            // console.log(req)
-            // console.log(req.files.type)
-            // var datasources = Review.dataSource;
-            // console.log(req.files.fileUpload)
-            var parsedData = JSON.parse(data);
-            
-            // console.log("data")
-            // console.log(parsedData)
-            // console.log(parsedData.fileUpload)
-            // var storageService = new StorageService()
-            // var Container = app.models.container;
-            // console.log(Container)
-            // console.log(parsedData)
-            // checkCaptch(parsedData, cb);
-            // parsedData.images = [];
-            // console.log(req)
-            // console.log(req.files.fileUpload)
-            // console.log(req.length)
-            // if (req.files.fileUpload.type.indexOf('image') < 0) {
-            //     cb(new Error("file is not an image"));
-            // }
-            // if (req.files.fileUpload.size > 10485760) {
-            //     cb(new Error("file is larger than 10MB"));
-            // }
+    Review.createNew = function(data, req, cb) {
+        var parsedData = JSON.parse(data);
 
-            // req.files.fileUpload.name = randomString();
-            // console.log(app.datasources['rate-my-dog-breeder-review-images'])
-            // console.log(Object.keys(app.datasources['rate-my-dog-breeder-review-images']))
-            // app.datasources['rate-my-dog-breeder-review-images']
-            
-        
-            app.datasources.rateMyDogBreederReviewImages.connector.client.upload(req, res, {container: 'xxxx'}, function(err, result) {
-                        // ds.upload(req, res, {container: 'xxxx'}, function(err, result) {
+        request.post({
+            url: "https://www.google.com/recaptcha/api/siteverify",
+            form: {
+                secret: secret,
+                response: parsedData.captcha
+            }
+        }, function(err, response, body) {
+            var parsed = (JSON.parse(body));
+            if (err) {
+                console.log(err);
+                cb(err)
+                // cb({error: 'server', message: err});
+            }
+            if (parsed.success) {
+                delete parsedData.captcha;
+                uploadImage(parsedData, req, cb);
 
-                console.log('---------', err, result);
-            })
-            
-            
-            
-            //  var Container = Review.app.models.container;
-            // //  console.log(Container)
-            // //  console.log("req files")
-            // //  console.log(req.files.fileUpload.headers)
-            // //  req.files.fileUpload.headers.headers = req.headers
-            // //  console.log(req.files.fileUpload)
-            //  Container.getContainer({name:'breeder-review-container-test'},function(err,c) {
-            //     //  console.log(c.name)
-             
-            // //  Container.getContainer({container: "rate-my-dog-breeder-review-images"},function(err,c) {
-            // Container.upload(req, res,{container: 'breeder-review-container-test'}, function(err, res) {
-            //     console.log('-----------', arguments);
-            //     if (err) {
-            //         cb(err);
-            //     }
-            //     else {
-            //         cb();
-            //     }
-            // })
-            //  })
-            //     });
-            // }
-            //     Container.upload(req,res,{container: c.name},cb)
-            // });
-            //  var storage     =   require('loopback-component-storage');
-            // var storageService  = storage.StorageService({provider: 'filesystem', root: '/tmp'});
-                // Container.createContainer({name:'breeder-review-images-1'},function(err,c) {
-                // Container.upload(req, res, {container: "rate-my-dog-breeder-review-images"}, cb)
-                // function(err, response) {
-
-                //  Container.upload(req,res,{container: c.name},cb)
-                // });
-            // Container['rate-my-dog-breeder-review-images'].upload(req, res, {container: 'breeder-review-images'}, function(err, response) {
-                // if (err) {
-                //     console.log(err)
-                //     return cb(new Error("upload Error: " + err))
-                // }
-
-                // console.log(response);
-
-
-
-                // // if (app.datasources['fkwehfkw'].provider === 'amazon') {
-                // //     decodedData.images.push('http://s3.blabla/' + containerName + '/' + fileName);
-                // // }
-                // // else if (app.datasource['fkehfke'].provider === 'local') {
-                // //     decodeddata.images.push('/images/' + fileName);
-                // // }
-                // Review.create(parsedData, cb);
-            // });
-                // });
-        }
-
-        Review.remoteMethod('createNew', {
-            http: {
-                verb: 'post',
-                path: '/createNew'
-            },
-            accepts: [{
-                arg: 'data',
-                type: 'string',
-                http: {
-                    source: 'form'
-                }
-            }, {
-                arg: 'req',
-                type: 'object',
-                http: {
-                    source: 'req'
-                }
-            }, {
-                arg: 'res',
-                type: 'object',
-                http: {
-                    source: 'res'
-                }
-            }],
-            returns: {
-                arg: 'status',
-                type: 'string'
-                // root: true
+            }
+            else {
+                // cb(new Error({error: 'captcha', message: "Invalid Captcha"}));
+                cb(new Error('captcha'));
             }
         });
+    };
+    Review.remoteMethod('createNew', {
+        http: {
+            verb: 'post',
+            path: '/createNew'
+        },
+        accepts: [{
+            arg: 'data',
+            type: 'string',
+            http: {
+                source: 'form'
+            }
+        }, {
+            arg: 'req',
+            type: 'object',
+            http: {
+                source: 'req'
+            }
+        }],
+        returns: {
+            arg: 'status',
+            type: 'string'
+        }
+    });
 
 };
-        // else {
-        //   request.post({url: "https://www.google.com/recaptcha/api/siteverify", form: {secret: secret,response: ctx.data.captcha}}, function(err,response,body){
-        //     var parsed = (JSON.parse(body));
-        //     if (err){
-        //         console.log(err);
-        //     }
-        //     if (parsed.success){
-        //         delete ctx.data.captcha;
-        //         next();
-        //     }
-        //     else {
-        //         next(new Error('Invalid Captcha'));
-        //     }
-        //   }); 
-        // }
-        // console.log(JSON.parse(response))
-
-        // return response
-        //     })   
-        // };

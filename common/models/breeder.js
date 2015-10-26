@@ -1,21 +1,21 @@
-function orderValidation(order) {
+function orderValidation(order, sort) {
     if (order === 'name') {
-        order = 'Breeder.name ASC, Litter.breedName IS NULL, Litter.breedName';
+        order = 'Breeder.name ' + sort + ' , Litter.breedName IS NULL, Litter.breedName';
     }
     else if (order === 'kennel') {
-        order = 'Breeder.kennel IS NULL, Breeder.kennel, Breeder.name';
+        order = 'Breeder.kennel IS NULL, Breeder.kennel ' + sort + ' , Breeder.name';
     }
     else if (order === 'city') {
-        order = 'Address.city, Address.province, Breeder.name';
+        order = 'Address.city ' + sort + ' , Address.province, Breeder.name';
     }
     else if (order === 'prov') {
-        order = 'Address.province, Address.city, Breeder.name';
+        order = 'Address.province ' + sort + ' , Address.city, Breeder.name';
     }
     else if (order === 'breed') {
-        order = 'Litter.breedName IS NULL, Litter.breedName, Breeder.name';
+        order = 'Litter.breedName IS NULL, Litter.breedName ' + sort + ' , Breeder.name';
     }
     else {
-        order = 'Breeder.name ASC, Litter.breedName IS NULL, Litter.breedName';
+        order = 'Breeder.name ' + sort + ' , Litter.breedName IS NULL, Litter.breedName';
     }
     return order;
 }
@@ -89,9 +89,11 @@ function buildQuery() {
 
 module.exports = function(Breeder) {
 
-    Breeder.byProvAndBreed = function(province, breed, page, order, numEntries, cb) {
-        
-        // console.log(arguments.length)
+    Breeder.byProvAndBreed = function(province, breed, page, order, numEntries, sort, cb) {
+        if (sort !== 'ASC' && sort !== 'DESC'){
+            sort = "ASC";
+        }
+       
         if (province == undefined || breed == undefined || page == undefined || order == undefined  || numEntries == undefined) {
             return cb(new Error('Invalid Request'), {
                     page: page,
@@ -112,7 +114,7 @@ module.exports = function(Breeder) {
             page = 0;
         }
 
-        order = orderValidation(order);
+        order = orderValidation(order, sort);
         queryLimit = buildQuery();
         queryWhere = whereQuery(province, breed);
         queryLimit += queryWhere + ' GROUP BY Breeder.id';
@@ -219,6 +221,12 @@ module.exports = function(Breeder) {
                 http: {
                     source: 'query'
                 }
+            }, {
+                arg: 'sort',
+                type: 'string',
+                http: {
+                    source: 'query'
+                }
             }],
             returns: {
                 arg: 'data',
@@ -227,8 +235,12 @@ module.exports = function(Breeder) {
             }
         }),
 
-    Breeder.byName = function(name, page, order, numEntries, cb) {
-        if (!name || !page || !order || !numEntries) {
+    Breeder.byName = function(name, page, order, numEntries, sort, cb) {
+        if (sort !== 'ASC' && sort !== 'DESC'){
+            sort = "ASC";
+        }
+            if (name == undefined || page == undefined || order == undefined  || numEntries == undefined) {
+
             return cb(new Error('Invalid Request'), {
                     page: page,
                     offset: numEntries,
@@ -241,7 +253,7 @@ module.exports = function(Breeder) {
         var nextLimit = numEntries + 1;
         var ds = Breeder.dataSource;
         var nameQueryLimit = buildQuery();
-        order = orderValidation(order);
+        order = orderValidation(order, sort);
 
         if (isNaN(numEntries)) {
             numEntries = 10;
@@ -332,6 +344,12 @@ module.exports = function(Breeder) {
             }, {
                 arg: 'limit',
                 type: 'number',
+                http: {
+                    source: 'query'
+                }
+            }, {
+                arg: 'sort',
+                type: 'string',
                 http: {
                     source: 'query'
                 }
