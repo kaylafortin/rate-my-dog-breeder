@@ -1,1 +1,0 @@
-nom install -- strongloop, bluebird, request

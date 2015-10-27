@@ -18,12 +18,9 @@
     "loopback-component-storage": "^1.5.1",
     "loopback-connector-mysql": "^2.2.0",
     "loopback-datasource-juggler": "^2.39.0",
-    "multer": "^1.0.6",
     "multiparty": "^4.1.2",
-    "promise-mysql": "^1.0.0",
     "request": "^2.65.0",
     "serve-favicon": "^2.0.1",
-    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "jshint": "^2.5.6"

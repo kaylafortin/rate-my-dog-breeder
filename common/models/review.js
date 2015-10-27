@@ -4,12 +4,15 @@ var app = require('../../server/server');
 var secret = process.env.CAPTCHA_KEY;
 var fs = require('fs');
 var storage = app.datasources.reviewImages;
+var apiUrl = process.env.API_URL;
+
+
 
 
 function postReview(review, cb) {
     console.log(review)
     request.post({
-        url: "https://rate-my-dog-breeder-hennigk.c9.io/api/Reviews",
+        url: apiUrl + "Reviews",
         form: review
     }, function(err, response, body) {
         if (err) {
