@@ -20,7 +20,7 @@
     "loopback-datasource-juggler": "^2.39.0",
     "multiparty": "^4.1.2",
     "request": "^2.65.0",
-    "serve-favicon": "^2.0.1",
+    "serve-favicon": "^2.0.1"
   },
   "devDependencies": {
     "jshint": "^2.5.6"
