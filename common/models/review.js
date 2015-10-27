@@ -7,6 +7,7 @@ var storage = app.datasources.reviewImages;
 
 
 function postReview(review, cb) {
+    console.log(review)
     request.post({
         url: "https://rate-my-dog-breeder-hennigk.c9.io/api/Reviews",
         form: review
@@ -16,48 +17,54 @@ function postReview(review, cb) {
             cb(err);
         }
         else {
-            return;
+            cb(null, {success: true});
         }
     });
 }
 
 function uploadImage(parsedData, req, cb) {
-    if (req.files.fileUpload) {
-        var bucket = "breeder-review-images";
-        var randomDir = 'files_' + Math.random().toString(36);
-        var file = req.files.fileUpload;
-        var fileName = randomDir + '/' + file.originalFilename;
-
-        var upStream = app.models.container.uploadStream(bucket, fileName, {
-            'contentType': file.type
-        });
-        var fileStream = fs.createReadStream(file.path);
-
-        var fileURL = "https://s3.amazonaws.com/" + bucket + "/" + fileName;
-        if (file.type.indexOf('image') < 0) {
-            cb(new Error("filetype"));
-            // cb(new Error({error: 'type', message: "file is not an image"}));
+    if (req.files) {
+        parsedData.images = [];
+        var files = req.files
+        
+        for (var key in files) {
+            console.log(files[key])
+            console.log(key)
+            if (files[key].type.indexOf('image') < 0) {
+                cb(new Error("filetype"));
+                // cb(new Error({error: 'type', message: "file is not an image"}));
+            }
+            if (files[key].size > 5242880) {
+                cb(new Error("filesize"));
+            }
+            var bucket = "breeder-review-images";
+            var randomDir = 'files_' + Math.random().toString(36);
+            
+            var fileName = randomDir + '/' + files[key].originalFilename;
+    
+            var upStream = app.models.container.uploadStream(bucket, fileName, {
+                'contentType': files[key].type
+            });
+        
+            var fileStream = fs.createReadStream(files[key].path);
+            var fileURL = "https://s3.amazonaws.com/" + bucket + "/" + fileName;
+            parsedData.images.push(fileURL);
+            console.log(parsedData)
+            console.log(fileURL)
+            
+            upStream.on('finish', function() {
+                console.log("return")
+                return
+            });
+            fileStream.pipe(upStream);
         }
-        if (file.size > 10485760) {
-            cb(new Error("filesize"));
-            // cb(new Error({error: 'size', message: "file is larger than 10MB"}));
-        }
-        upStream.on('finish', function() {
-            parsedData.images = [{
-                image: fileURL
-            }];
-            postReview(parsedData, cb);
-            // cb(null, 'OK');
-            cb(null, {success: true});
-        });
-
-        fileStream.pipe(upStream);
+        postReview(parsedData, cb);
+        // cb(null, {success: true});
     }
     else {
-        console.log(parsedData);
         postReview(parsedData, cb);
         // cb(null, 'OK');
-        cb(null, {success: true});
+        // cb(null, {success: true});
     }
 
 }
@@ -67,7 +74,7 @@ module.exports = function(Review) {
 
     Review.createNew = function(data, req, cb) {
         var parsedData = JSON.parse(data);
-
+        // console.log(req)
         request.post({
             url: "https://www.google.com/recaptcha/api/siteverify",
             form: {
