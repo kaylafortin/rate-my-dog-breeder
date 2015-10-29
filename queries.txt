@@ -65,3 +65,40 @@ LEFT JOIN Address ON Address.breederId = Breeder.id
 WHERE Address.id IS NULL;
 
 SELECT Litter.*,  Address.*, Breeder.* FROM Breeder JOIN Address ON Address.breederId = Breeder.id  LEFT JOIN Litter ON Litter.breederId = Breeder.id WHERE Address.province != "all" AND WHERE Litter.breedId=18 GROUP BY Breeder.id GROUP BY Breeder.id;
+
+SELECT Breeder.*, Litter.*, Review.breederId, AVG(Review.rating) FROM Breeder LEFT JOIN Review ON Review.breederId = Breeder.id LEFT JOIN Litter ON Litter.breederId = Breeder.id GROUP BY Breeder.id ORDER BY AVG(rating) ASC LIMIT 0, 10;
+
+mysql> SELECT Breeder.*, Litter.*, Review.breederId, AVG(Review.rating) FROM Breeder LEFT JOIN Review ON Review.breederId = Breeder.id LEFT JOIN Litter ON Litter.breederId = Breeder.id GROUP BY Breeder.id ORDER BY AVG(rating) DESC LIMIT 0, 10;
++------+-----------------------+--------------+------+---------------------+------------+--------------+----------------+-----------+---------+-----------+--------------------+
+| id   | name                  | kennel       | id   | breedName           | birthDate  | malePupCount | femalePupCount | breederId | breedId | breederId | AVG(Review.rating) |
++------+-----------------------+--------------+------+---------------------+------------+--------------+----------------+-----------+---------+-----------+--------------------+
+|  271 | INGA E. NEWBURY       | MERWESTEYN   | NULL | NULL                | NULL       |         NULL |           NULL |      NULL |    NULL |      NULL |               NULL |
+|  843 | FRANCE AUBRY          | HOZEN        | 4023 | German Shepherd Dog | 3/18/2015  |            3 |              3 |       843 |      80 |      NULL |               NULL |
+| 1513 | MARIE-MICHELE LECUYER | NULL         | NULL | NULL                | NULL       |         NULL |           NULL |      NULL |    NULL |      NULL |               NULL |
+| 2208 | SHEILA IVIMEY         | PONDEROSA    | 5364 | Long Coat Chihuahua | 2/22/2015  |            1 |              2 |      2208 |      48 |      NULL |               NULL |
+|  181 | DANIEL LALONDE        | NULL         | NULL | NULL                | NULL       |         NULL |           NULL |      NULL |    NULL |      NULL |               NULL |
+|  875 | KAREN E CHAITON       | BIGCITY      | NULL | NULL                | NULL       |         NULL |           NULL |      NULL |    NULL |      NULL |               NULL |
+| 1545 | KAYLEN J KOKOLUS      | EXOTICMIRAGE | 4607 | French Bulldog      | 2/23/2015  |            2 |              3 |      1545 |      78 |      NULL |               NULL |
+| 2118 | LOIS E MCINTOSH       | PAGODAPALACE | 5230 | Pekingese           | 8/26/2015  |            0 |              1 |      2118 |     128 |      NULL |               NULL |
+|  213 | BRIAN K SCOTT         | WEYLINMARSH  | 3450 | Havanese            | 12/28/2014 |            0 |              1 |       213 |      90 |      NULL |               NULL |
+|  785 | CAROLYN P MAYCOCK     | NULL         | NULL | NULL                | NULL       |         NULL |           NULL |      NULL |    NULL |      NULL |               NULL |
++------+-----------------------+--------------+------+---------------------+------------+--------------+----------------+-----------+---------+-----------+--------------------+
+
+mysql> SELECT Breeder.*, Litter.*, Review.breederId, AVG(Review.rating) FROM Breeder LEFT JOIN Review ON Review.breederId = Breeder.id LEFT JOIN Litter ON Litter.breederId = Breeder.id ORDER BY AVG(rating) DESC LIMIT 0, 10;
++------+-----------------------+------------+------+----------------------+------------+--------------+----------------+-----------+---------+-----------+--------------------+
+| id   | name                  | kennel     | id   | breedName            | birthDate  | malePupCount | femalePupCount | breederId | breedId | breederId | AVG(Review.rating) |
++------+-----------------------+------------+------+----------------------+------------+--------------+----------------+-----------+---------+-----------+--------------------+
+| 1093 | ALBERT SYKES          | NULL       | NULL | NULL                 | NULL       |         NULL |           NULL |      NULL |    NULL |      1093 |             5.0000 |
+|  141 | DOREEN F PAGE         | SUDELEY    | NULL | NULL                 | NULL       |         NULL |           NULL |      NULL |    NULL |       141 |             5.0000 |
+|  149 | ABNER W MARTIN        | NULL       | 3413 | Golden Retriever     | 11/23/2014 |            2 |              3 |       149 |     148 |       149 |             5.0000 |
+|  228 | CAROLYNNE J ISSA      | LUNANOVA   | 3458 | Portuguese Water Dog | 11/26/2014 |            1 |              1 |       228 |     141 |       228 |             4.9259 |
+|  935 | DAVE R OWEN           | KINGMAN    | NULL | NULL                 | NULL       |         NULL |           NULL |      NULL |    NULL |       935 |             4.6875 |
+|  271 | INGA E. NEWBURY       | MERWESTEYN | NULL | NULL                 | NULL       |         NULL |           NULL |      NULL |    NULL |      NULL |               NULL |
+|  843 | FRANCE AUBRY          | HOZEN      | 4023 | German Shepherd Dog  | 3/18/2015  |            3 |              3 |       843 |      80 |      NULL |               NULL |
+| 1513 | MARIE-MICHELE LECUYER | NULL       | NULL | NULL                 | NULL       |         NULL |           NULL |      NULL |    NULL |      NULL |               NULL |
+| 2208 | SHEILA IVIMEY         | PONDEROSA  | 5364 | Long Coat Chihuahua  | 2/22/2015  |            1 |              2 |      2208 |      48 |      NULL |               NULL |
+|  181 | DANIEL LALONDE        | NULL       | NULL | NULL                 | NULL       |         NULL |           NULL |      NULL |    NULL |      NULL |               NULL |
++------+-----------------------+------------+------+----------------------+------------+--------------+----------------+-----------+---------+-----------+--------------------+
+10 rows in set (2.08 sec)
+
+SELECT Breeder.*, Litter.*, Review.breederId FROM Breeder LEFT JOIN (SELECT AVG(Review.rating) FROM Review) Review ON Review.breederId = Breeder.id LEFT JOIN Litter ON Litter.breederId = Breeder.id ORDER BY AVG(rating) DESC; 

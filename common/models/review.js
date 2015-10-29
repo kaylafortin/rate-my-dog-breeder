@@ -3,14 +3,13 @@ var request = Promise.promisify(require("request"));
 var app = require('../../server/server');
 var secret = process.env.CAPTCHA_KEY;
 var fs = require('fs');
-var storage = app.datasources.reviewImages;
 var apiUrl = process.env.API_URL;
 
 
 
 
 function postReview(review, cb) {
-    console.log(review)
+    // console.log(review)
     request.post({
         url: apiUrl + "Reviews",
         form: review
@@ -31,8 +30,8 @@ function uploadImage(parsedData, req, cb) {
         var files = req.files
         
         for (var key in files) {
-            console.log(files[key])
-            console.log(key)
+            // console.log(files[key])
+            // console.log(key)
             if (files[key].type.indexOf('image') < 0) {
                 cb(new Error("filetype"));
                 // cb(new Error({error: 'type', message: "file is not an image"}));
