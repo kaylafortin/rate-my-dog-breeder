@@ -306,7 +306,7 @@ module.exports = function(Breeder) {
             order = orderValidation(order, sort);
 
             nameQueryLimit += " WHERE Breeder.name LIKE CONCAT('%', ?, '%') OR Breeder.kennel LIKE CONCAT('%', ?, '%') " +
-                "GROUP BY Breeder.id ORDER BY " + ds.connector.client.escape(order) + " LIMIT " + ds.connector.client.escape(page) + "," + ds.connector.client.escape(nextLimit);
+                "GROUP BY Breeder.id ORDER BY " + order + " LIMIT " + ds.connector.client.escape(page) + "," + ds.connector.client.escape(nextLimit);
 
 
             ds.connector.query(nameQueryLimit, [name, name], function(err, nameLimit) {
@@ -340,9 +340,13 @@ module.exports = function(Breeder) {
                 var where = whereIn.substr(0, whereIn.length - 1) + ") ";
                 var query = buildQuery();
                 var whereInQuery = " WHERE (Breeder.name LIKE CONCAT('%', ?, '%') OR Breeder.kennel LIKE CONCAT('%', ?, '%') ) ";
-
-                query += whereInQuery + where + 'ORDER BY ' + order;
-
+                if (order.indexOf("AVG(Review.rating)") >= 0) {
+                    query += whereInQuery + where;
+                }
+                else {
+                    query += whereInQuery + where + 'ORDER BY ' + order;
+                }
+                
                 ds.connector.query(query, [name, name], function(err, results) {
                     if (err) {
                         console.log(err);
