@@ -41,9 +41,9 @@ function uploadImage(parsedData, req, cb) {
             }
             var bucket = "breeder-review-images";
             var randomDir = 'files_' + Math.random().toString(36);
-            
-            var fileName = randomDir + '/' + files[key].originalFilename;
-    
+            var origFileName = files[key].originalFilename.replace(/#|\s+/g, '')
+            var fileName = randomDir + '/' + origFileName;
+            // console.log(fileName)
             var upStream = app.models.container.uploadStream(bucket, fileName, {
                 'contentType': files[key].type
             });
@@ -51,11 +51,11 @@ function uploadImage(parsedData, req, cb) {
             var fileStream = fs.createReadStream(files[key].path);
             var fileURL = "https://s3.amazonaws.com/" + bucket + "/" + fileName;
             parsedData.images.push(fileURL);
-            console.log(parsedData)
-            console.log(fileURL)
+            // console.log(parsedData)
+            // console.log(fileURL)
             
             upStream.on('finish', function() {
-                console.log("return")
+                // console.log("return")
                 return
             });
             fileStream.pipe(upStream);
