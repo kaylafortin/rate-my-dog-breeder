@@ -1,0 +1,187 @@
+    1  node .
+    2  git add .
+    3  git commit -m "installed loopback"
+    4  git add .
+    5  git commit -m "added function to get breed list"
+    6  mysql-ctl start
+    7  npm install --save loopback-connector-mysql
+    8  slc loopback:datasource ckcBreeders
+    9  mysql-ctl -uhennigk
+   10  mysql -uhennigk
+   11  mkdir server/bin
+   12  node server/bin/automigrate.js
+   13  slc run
+   14  npm install --save loopback-connector-mysql
+   15  slc loopback:datasource
+   16  git add .
+   17  git add --all
+   18  git push origin master
+   19  git status
+   20  git commit -m "set up models and imported breed list to database"
+   21  git push origin master
+   22  git add .
+   23  git add --all
+   24  git commit -m "uploaded first 20 breeders. still need to get relations working properly"
+   25  git push origin master
+   26  git add .
+   27  git add --all 
+   28  git commit -m "installed underscore and webpack"
+   29  git push origin master
+   30  slc loopback
+   31  npm install -g strongloop
+   32  slc loopback
+   33  slc loopback:model
+   34  slc loopback
+   35  npm install
+   36  slc loopback:model
+   37  slc loopback:relation
+   38  slc loopback:model
+   39  slc loopback:relation
+   40  slc loopback:model
+   41  slc loopback:relation
+   42  slc loopback:datasource
+   43  mysql -uhennigk
+   44  node .
+   45  mysql-ctl start
+   46  mysql -uhennigk
+   47  git add .
+   48  git commit -m "added captcha"
+   49  git push origin master
+   50  git push heroku master
+   51  cd
+   52  cd workspace
+   53  git add .
+   54  git commit -m "working with loopback storage"
+   55  git push origin master
+   56  npm uninstall promise-mysql
+   57  npm uninstall underscore
+   58  npm uninstall multiparty
+   59  mysql-ctl start
+   60  cd
+   61  ls
+   62  nano backup.sql
+   63  cd lib
+   64  ls
+   65  ls -a
+   66  ls -a -l
+   67  cd 
+   68  cd workspace
+   69  ls -a 
+   70  ls -a -l
+   71  ls  du command
+   72  ls - du command
+   73  ls -lah
+   74  ls --block-size=M
+   75  ls -lah --block-size=M
+   76  cd
+   77  ls -lah --block-size=M
+   78  ls -lah
+   79  cd ~
+   80  ls -lah
+   81  cd ./
+   82  ls -lah
+   83  cd workspace
+   84  ls -lah
+   85  cd node_modules
+   86  ls -lah
+   87  cd workspace
+   88  cd
+   89  cd workdpsce
+   90  cd workspace
+   91  du -hsc *
+   92  cd
+   93  du -hsc *
+   94  cd workspace
+   95  du -hsc *
+   96  git add .
+   97  git commit -m "updated review model"
+   98  git push origin master
+   99  mysql-ctl start
+  100  cd
+  101  du -hsc *
+  102  cd lib
+  103  du -hsc *
+  104  ls -a 
+  105  ls -a -l
+  106  du -hsc *
+  107  cd
+  108  du -hsc *
+  109  cd workspace
+  110  du -hsc *
+  111  ls -a l
+  112  ls -a -l
+  113  du -hsc *
+  114  rm -r ~/.npm/
+  115  df -h
+  116  du -hsc ~
+  117  du -hsc ~/*
+  118  du -hsc ~/.*
+  119  cd ..
+  120  du -hsc ~/.*
+  121  du -hsc ~/
+  122  du -hsc ~/*
+  123  du -hsc ~/.*
+  124  du -hsc ~/.node-gyp/
+  125  du -hsc ~/.nvm
+  126  cd .nvm
+  127  ls -l
+  128  du -hsc *
+  129  cd v0.10.35
+  130  ls -l
+  131  du -hsc *
+  132  which node
+  133  which npm
+  134  cd lib/
+  135  ls -l
+  136  cd node_modules/
+  137  ls -l
+  138  du -hsc *
+  139  npm remove -g strongloop
+  140  ls -l
+  141  cd ~
+  142  df -h
+  143  du -hsc *
+  144  du -hsc * .nvm
+  145  mysql-ctl stop
+  146  mysql-ctl start
+  147  cd workspace
+  148  ls 
+  149  npm install --save multiparty
+  150  git histoary
+  151  history
+  152  mysql-ctl start
+  153  mysql -uhennigk
+  154  $ du -hsc * .nvm
+  155  cd
+  156  du -hsc * .nvm
+  157  cd .nvm
+  158  ls -a -l
+  159  cd
+  160  cd workspace
+  161  npm uninstall foundation
+  162  cd
+  163  npm uninstall foundation
+  164  cd workspace
+  165  mysqldump --opt -uhennigk ckcbreeders  > ckcbreedersBackup.sql    
+  166  npm uninstall strongloop
+  167  history|grep mysql
+  168  git add .
+  169  git add --all 
+  170  git commit -m "updated api connections"
+  171  git push origin master
+  172  git push origin heroku
+  173  git push heroku master
+  174  git add .
+  175  git commit -m "updated package.json file"
+  176  git push heroku master
+  177  git add .
+  178  git commit -m "added top breeder query"
+  179  git push origin master
+  180  git push heroku master
+  181  git add .
+  182  git commit -m "fixed error in file names with spaces"
+  183  git push origin master
+  184  git push heroku master
+  185  history
+  186  mysqldump --opt -uhennigk ckcbreeders  > ckcbreedersBackup102915.sql
+  187  history > history2.txt

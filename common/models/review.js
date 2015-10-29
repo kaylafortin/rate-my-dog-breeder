@@ -4,7 +4,7 @@ var app = require('../../server/server');
 var secret = process.env.CAPTCHA_KEY;
 var fs = require('fs');
 var apiUrl = process.env.API_URL;
-
+var bucket = process.env.AMAZON_BUCKET;
 
 
 
@@ -39,9 +39,9 @@ function uploadImage(parsedData, req, cb) {
             if (files[key].size > 5242880) {
                 cb(new Error("filesize"));
             }
-            var bucket = "breeder-review-images";
+            // var bucket = "breeder-review-images";
             var randomDir = 'files_' + Math.random().toString(36);
-            var origFileName = files[key].originalFilename.replace(/#|\s+/g, '')
+            var origFileName = files[key].originalFilename.replace(/#|\s+/g, '');
             var fileName = randomDir + '/' + origFileName;
             // console.log(fileName)
             var upStream = app.models.container.uploadStream(bucket, fileName, {
