@@ -106,7 +106,7 @@ function whereQuery(province, breed, where) {
     }
 
     else if (Number(breed) !== 0) {
-        return ' WHERE Address.province != ? AND Litter.breedId=' + ds.connector.client.escape(breed) + where;
+        return ' WHERE Address.province != ' + ds.connector.client.escape(breed) + ' AND Litter.breedId=' + ds.connector.client.escape(breed) + where;
     }
     else if (where !== "") {
         return ' WHERE ' + where.substring(4);
